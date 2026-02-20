@@ -18,9 +18,73 @@
             font-family: 'Open Sans', sans-serif;
             background-color: white;
             color: #333;
+            overflow: hidden; /* Prevent scrolling until modal is closed */
         }
 
-        /* Top Promo Bar - Classic Epic Style */
+       /* IMPROVED SCROLLABLE MODAL */
+        #birthdayModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 33, 66, 0.98); /* Epic Navy */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Start at top to allow scrolling */
+            z-index: 9999;
+            overflow-y: auto; /* Enable scrolling for the modal itself */
+            padding: 20px 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 4px;
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            margin: auto; /* Centers it if content is small */
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            border-top: 10px solid var(--epic-gold);
+        }
+
+        .modal-content img {
+            width: 100%;
+            max-height: 50vh; /* Limits image to 50% of screen height */
+            object-fit: cover; /* Keeps the face from stretching */
+            border-radius: 4px;
+            margin-bottom: 15px;
+            border: 2px solid var(--epic-gray);
+        }
+
+        .modal-content h1 {
+            color: var(--epic-navy);
+            font-size: 2rem;
+            margin: 10px 0;
+            font-family: 'Montserrat';
+        }
+
+        .modal-btn {
+            background: var(--epic-blue);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            font-family: 'Montserrat';
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 50px;
+            margin-top: 10px;
+            letter-spacing: 1px;
+            width: 100%; /* Makes it easier to tap on mobile */
+        }
+        .modal-btn:hover {
+            background: var(--epic-navy);
+        }
+
+        /* --- REST OF EPIC THEME STYLES --- */
         .promo-bar {
             background-color: var(--epic-gold);
             color: #000;
@@ -33,156 +97,71 @@
             letter-spacing: 1px;
         }
 
-        /* Hero Section */
         header {
             height: 70vh;
             background: linear-gradient(rgba(0,51,102,0.3), rgba(0,51,102,0.6)), 
                         url('https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&q=80&w=1500') center/cover no-repeat;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-            transition: background 0.5s ease;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            color: white; text-align: center; transition: 0.5s ease;
         }
 
-        h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 900;
-            font-size: 4.5rem;
-            margin: 0;
-            line-height: 0.9;
-        }
+        .hero-title { font-family: 'Montserrat'; font-weight: 900; font-size: 4.5rem; margin: 0; }
+        .hero-sub { font-size: 1.5rem; margin-top: 20px; font-weight: 700; text-transform: uppercase; }
 
-        .hero-sub {
-            font-size: 1.5rem;
-            margin-top: 20px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        /* Resort Selector Toggle */
         .selector-container {
             background: var(--epic-navy);
             padding: 30px 0;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: -2px; /* Smooth transition from hero */
+            display: flex; justify-content: center; gap: 20px;
         }
 
         .resort-btn {
-            background: transparent;
-            border: 2px solid white;
-            color: white;
-            padding: 12px 30px;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: 0.3s;
+            background: transparent; border: 2px solid white; color: white;
+            padding: 12px 30px; font-family: 'Montserrat'; font-weight: 700;
+            text-transform: uppercase; cursor: pointer; transition: 0.3s;
         }
 
-        .resort-btn:hover, .resort-btn.active {
-            background: white;
-            color: var(--epic-navy);
-        }
+        .resort-btn.active { background: white; color: var(--epic-navy); }
 
-        /* Content Sections */
-        .section-title {
-            text-align: center;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2.5rem;
-            color: var(--epic-navy);
-            margin: 60px 0 40px;
-            text-transform: uppercase;
-        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px 80px; }
+        .section-title { text-align: center; font-family: 'Montserrat'; font-size: 2.5rem; color: var(--epic-navy); margin: 60px 0 40px; text-transform: uppercase; }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px 80px;
-        }
+        .itinerary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .card { background: var(--epic-gray); border-bottom: 5px solid var(--epic-blue); padding: 30px; transition: 0.3s; }
+        .card .time-stamp { background: var(--epic-navy); color: white; display: inline-block; padding: 4px 12px; font-size: 0.8rem; font-weight: 700; margin-bottom: 15px; }
 
-        /* Itinerary Cards */
-        .itinerary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
-
-        .card {
-            background: var(--epic-gray);
-            border-bottom: 5px solid var(--epic-blue);
-            padding: 30px;
-            transition: 0.3s;
-        }
-
-        .card:hover { transform: translateY(-10px); background: white; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-
-        .card h3 {
-            font-family: 'Montserrat', sans-serif;
-            color: var(--epic-navy);
-            margin-top: 0;
-            font-size: 1.4rem;
-        }
-
-        .card .time-stamp {
-            background: var(--epic-navy);
-            color: white;
-            display: inline-block;
-            padding: 4px 12px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-
-        /* The Camry Luxury Section */
         .luxury-feature {
-            background: var(--epic-navy);
-            color: white;
-            padding: 60px;
-            border-radius: 4px;
-            margin-top: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
+            background: var(--epic-navy); color: white; padding: 60px; border-radius: 4px;
+            margin-top: 60px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
         }
 
-        .luxury-text { flex: 1; min-width: 300px; }
-        .luxury-text h2 { font-family: 'Montserrat'; font-size: 2.5rem; margin: 0; color: var(--epic-gold); }
-        
-        .price-tag {
-            background: var(--epic-blue);
-            padding: 20px;
-            text-align: center;
-            border-radius: 4px;
-            min-width: 200px;
-        }
+        .price-tag { background: var(--epic-blue); padding: 20px; text-align: center; border-radius: 4px; min-width: 200px; }
+        .price-tag strong { font-size: 2.5rem; font-family: 'Montserrat'; display: block; }
 
-        .price-tag span { display: block; font-size: 0.9rem; text-transform: uppercase; }
-        .price-tag strong { font-size: 2.5rem; font-family: 'Montserrat'; }
-
-        footer {
-            background: #111;
-            color: #666;
-            padding: 40px;
-            text-align: center;
-            font-size: 0.75rem;
-            line-height: 1.6;
-        }
+        footer { background: #111; color: #666; padding: 40px; text-align: center; font-size: 0.75rem; }
     </style>
 </head>
 <body id="pageBody">
 
+   <div id="birthdayModal">
+        <div class="modal-content">
+            <h2 style="font-family: Montserrat; color: var(--epic-blue); margin: 0; font-size: 0.9rem; letter-spacing: 1px;">32nd BIRTHDAY PASS DETECTED</h2>
+            <h1 style="text-transform: uppercase;">Happy Birthday!</h1>
+            
+            <img src="sloperMAN.jpeg" alt="The Man of the Hour">
+            
+            <p style="margin: 0; font-weight: bold; color: #555;">PASS HOLDER: sloperMAN</p>
+            <p style="margin: 5px 0 20px; font-size: 0.9rem;">Status: Valid for Heavenly/Northstar</p>
+            
+            <button class="modal-btn" onclick="closeModal()">LET'S SHRED</button>
+        </div>
+    </div>
+ 
     <div class="promo-bar">
         LAST CHANCE: 32nd BIRTHDAY PASS PRICING ENDS SOON — ALL EXPENSES INCLUDED
     </div>
 
     <header id="heroHeader">
-        <h1 id="resortName">HEAVENLY</h1>
+        <h1 id="resortName" class="hero-title">HEAVENLY</h1>
         <div class="hero-sub">Official 32nd Birthday Day-Trip Access</div>
     </header>
 
@@ -198,53 +177,52 @@
             <div class="card">
                 <div class="time-stamp">05:00 AM</div>
                 <h3>The Commute</h3>
-                <p>Departure from the Bay. Enjoy high-fidelity "serenading voices" and deep, unfiltered life chats in a climate-controlled environment.</p>
+                <p>Departure from the Bay. Enjoy high-fidelity "serenading voices" and deep, unfiltered life chats in the Camry XLE.</p>
             </div>
-
             <div class="card">
                 <div class="time-stamp">08:00 AM</div>
                 <h3>First Chair</h3>
-                <p>Beat the crowds. A full-throttle day of snowboarding, panoramic Sierra views, and high-speed runs until the lifts stop spinning.</p>
+                <p>Beat the crowds. A full-throttle day of snowboarding, panoramic Sierra views, and high-speed runs.</p>
             </div>
-
             <div class="card">
                 <div class="time-stamp">SUNSET</div>
                 <h3>The Return</h3>
-                <p>The golden hour descent back to the Bay Area. Total relaxation while your top-tier driver handles the I-80 traffic.</p>
+                <p>The golden hour descent back to the Bay Area. Recovery mode engaged while your driver takes the wheel.</p>
             </div>
         </div>
 
         <div class="luxury-feature">
-            <div class="luxury-text">
-                <h2>LUXURY TRANSPORT</h2>
-                <p style="font-size: 1.2rem; margin-top: 10px;">Toyota Camry XLE: The Pinnacle of Commuter Excellence.</p>
-                <p>Featuring a private top-tier driver, premium dinner service, and zero-stress navigation.</p>
+            <div style="flex: 1; min-width: 300px;">
+                <h2 style="font-family: Montserrat; color: var(--epic-gold); margin: 0;">LUXURY TRANSPORT</h2>
+                <p>Toyota Camry XLE: Featuring top-tier driver service and total expense coverage.</p>
             </div>
             <div class="price-tag">
                 <span>Total Cost</span>
                 <strong>$0.00</strong>
-                <span>Birthday Special</span>
             </div>
         </div>
     </div>
 
     <footer>
-        <p>EPIC BIRTHDAY PASS™ IS A NON-TRANSFERABLE VESTED INTEREST IN HAVING A GOOD TIME.</p>
-        <p>&copy; 2026 Birthday Resorts Management Team. Camry XLE is a registered trademark of being a great car. Serenading voices subject to availability based on coffee levels.</p>
+        &copy; 2026 Epic Birthday Pass. Not valid for resale. Must be 32 to ride.
     </footer>
 
     <script>
+        function closeModal() {
+            document.getElementById('birthdayModal').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('birthdayModal').style.display = 'none';
+                document.body.style.overflow = 'auto'; // Re-enable scrolling
+            }, 500);
+        }
+
         function updateResort(name, imgUrl, btn) {
-            // Update Title and Background
             document.getElementById('resortName').innerText = name.toUpperCase();
             document.getElementById('heroHeader').style.backgroundImage = `linear-gradient(rgba(0,51,102,0.3), rgba(0,51,102,0.6)), url('${imgUrl}')`;
-            
-            // Update Button UI
             const btns = document.querySelectorAll('.resort-btn');
             btns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         }
     </script>
-
 </body>
 </html>
