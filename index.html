@@ -3,212 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>32nd Birthday | Heavenly Expedition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <title>EPIC BIRTHDAY PASS | 32 YEARS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --epic-blue: #003366; /* Deep Vail/Epic Blue */
-            --heavenly-blue: #0072b1;
-            --snow-white: #ffffff;
-            --accent-gold: #ffcc00; /* For a 'Birthday' pop */
+            --epic-navy: #003366;
+            --epic-blue: #0072b1;
+            --epic-gold: #ffcc00;
+            --epic-gray: #f4f4f4;
         }
 
         body {
             margin: 0;
             font-family: 'Open Sans', sans-serif;
-            background-color: #f4f4f4;
+            background-color: white;
             color: #333;
+        }
+
+        /* Top Promo Bar - Classic Epic Style */
+        .promo-bar {
+            background-color: var(--epic-gold);
+            color: #000;
+            text-align: center;
+            padding: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         /* Hero Section */
         header {
-            height: 80vh;
-            background: linear-gradient(rgba(0,51,102,0.4), rgba(0,51,102,0.4)), 
+            height: 70vh;
+            background: linear-gradient(rgba(0,51,102,0.3), rgba(0,51,102,0.6)), 
                         url('https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&q=80&w=1500') center/cover no-repeat;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
             color: white;
-            clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
+            text-align: center;
+            transition: background 0.5s ease;
         }
 
         h1 {
             font-family: 'Montserrat', sans-serif;
-            font-size: 4rem;
+            font-weight: 900;
+            font-size: 4.5rem;
             margin: 0;
-            text-transform: uppercase;
-            letter-spacing: -2px;
+            line-height: 0.9;
         }
 
         .hero-sub {
             font-size: 1.5rem;
-            font-weight: 600;
-            margin-top: 10px;
-            background: var(--accent-gold);
-            color: var(--epic-blue);
-            padding: 5px 20px;
-            transform: rotate(-2deg);
+            margin-top: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
-        /* Epic Pass Style Navigation (Static) */
-        nav {
-            background: var(--epic-blue);
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+        /* Resort Selector Toggle */
+        .selector-container {
+            background: var(--epic-navy);
+            padding: 30px 0;
             display: flex;
             justify-content: center;
-            gap: 30px;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-        }
-
-        /* Content Sections */
-        .container {
-            max-width: 1100px;
-            margin: -50px auto 50px;
-            padding: 20px;
-        }
-
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
+            margin-top: -2px; /* Smooth transition from hero */
         }
 
-        .card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-
-        .card:hover { transform: translateY(-5px); }
-
-        .card-img {
-            height: 200px;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .card-content { padding: 25px; }
-
-        .card-content h3 {
-            margin: 0 0 10px;
-            color: var(--epic-blue);
-            text-transform: uppercase;
-        }
-
-        .btn {
-            display: inline-block;
-            background: var(--heavenly-blue);
+        .resort-btn {
+            background: transparent;
+            border: 2px solid white;
             color: white;
-            padding: 12px 25px;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            margin-top: 20px;
+            padding: 12px 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
             transition: 0.3s;
         }
 
-        .btn:hover { background: var(--epic-blue); }
-
-        /* Stats Bar */
-        .stats {
-            background: var(--epic-blue);
-            color: white;
-            display: flex;
-            justify-content: space-around;
-            padding: 40px 0;
-            margin-top: 50px;
-            text-align: center;
+        .resort-btn:hover, .resort-btn.active {
+            background: white;
+            color: var(--epic-navy);
         }
 
-        .stat-item h2 { font-size: 3rem; margin: 0; color: var(--accent-gold); }
+        /* Content Sections */
+        .section-title {
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            color: var(--epic-navy);
+            margin: 60px 0 40px;
+            text-transform: uppercase;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 80px;
+        }
+
+        /* Itinerary Cards */
+        .itinerary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--epic-gray);
+            border-bottom: 5px solid var(--epic-blue);
+            padding: 30px;
+            transition: 0.3s;
+        }
+
+        .card:hover { transform: translateY(-10px); background: white; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+
+        .card h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--epic-navy);
+            margin-top: 0;
+            font-size: 1.4rem;
+        }
+
+        .card .time-stamp {
+            background: var(--epic-navy);
+            color: white;
+            display: inline-block;
+            padding: 4px 12px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        /* The Camry Luxury Section */
+        .luxury-feature {
+            background: var(--epic-navy);
+            color: white;
+            padding: 60px;
+            border-radius: 4px;
+            margin-top: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .luxury-text { flex: 1; min-width: 300px; }
+        .luxury-text h2 { font-family: 'Montserrat'; font-size: 2.5rem; margin: 0; color: var(--epic-gold); }
+        
+        .price-tag {
+            background: var(--epic-blue);
+            padding: 20px;
+            text-align: center;
+            border-radius: 4px;
+            min-width: 200px;
+        }
+
+        .price-tag span { display: block; font-size: 0.9rem; text-transform: uppercase; }
+        .price-tag strong { font-size: 2.5rem; font-family: 'Montserrat'; }
 
         footer {
-            text-align: center;
+            background: #111;
+            color: #666;
             padding: 40px;
-            background: #222;
-            color: #888;
-            font-size: 0.8rem;
+            text-align: center;
+            font-size: 0.75rem;
+            line-height: 1.6;
         }
     </style>
 </head>
-<body>
+<body id="pageBody">
 
-    <nav>
-        <a href="#itinerary">The Trip</a>
-        <a href="#mountain">Heavenly Stats</a>
-        <a href="#gear">Gear Check</a>
-    </nav>
+    <div class="promo-bar">
+        LAST CHANCE: 32nd BIRTHDAY PASS PRICING ENDS SOON — ALL EXPENSES INCLUDED
+    </div>
 
-    <header>
-        <p class="hero-sub">LIMITED EDITION BIRTHDAY ACCESS</p>
-        <h1>HAPPY 32nd BIRTHDAY</h1>
-        <p style="font-size: 1.2rem;">Your Epic Day Trip to Heavenly is Confirmed.</p>
+    <header id="heroHeader">
+        <h1 id="resortName">HEAVENLY</h1>
+        <div class="hero-sub">Official 32nd Birthday Day-Trip Access</div>
     </header>
 
+    <div class="selector-container">
+        <button class="resort-btn active" onclick="updateResort('Heavenly', 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&q=80&w=1500', this)">Heavenly</button>
+        <button class="resort-btn" onclick="updateResort('Northstar', 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&q=80&w=1500', this)">Northstar</button>
+    </div>
+
     <div class="container">
-        <div class="card-grid" id="itinerary">
+        <h2 class="section-title">The Expedition Agenda</h2>
+        
+        <div class="itinerary-grid">
             <div class="card">
-                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&q=80&w=500');"></div>
-                <div class="card-content">
-                    <h3>06:00 AM | The Dawn Patrol</h3>
-                    <p>Pickup and departure. Coffee is on me. We're heading straight for the Gondola before the crowds hit.</p>
-                </div>
+                <div class="time-stamp">05:00 AM</div>
+                <h3>The Commute</h3>
+                <p>Departure from the Bay. Enjoy high-fidelity "serenading voices" and deep, unfiltered life chats in a climate-controlled environment.</p>
             </div>
 
             <div class="card">
-                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1498747946579-bde604cb8f44?auto=format&fit=crop&q=80&w=500');"></div>
-                <div class="card-content">
-                    <h3>12:00 PM | Lodge Lunch</h3>
-                    <p>Quick pitstop at Tamarack Lodge for some "fuel" and mountain views of Lake Tahoe.</p>
-                </div>
+                <div class="time-stamp">08:00 AM</div>
+                <h3>First Chair</h3>
+                <p>Beat the crowds. A full-throttle day of snowboarding, panoramic Sierra views, and high-speed runs until the lifts stop spinning.</p>
             </div>
 
             <div class="card">
-                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1520690214124-2405c5217036?auto=format&fit=crop&q=80&w=500');"></div>
-                <div class="card-content">
-                    <h3>04:00 PM | Après-Ski</h3>
-                    <p>Final runs down to the base for a celebratory drink. 32 years of shredding deserves a toast.</p>
-                </div>
+                <div class="time-stamp">SUNSET</div>
+                <h3>The Return</h3>
+                <p>The golden hour descent back to the Bay Area. Total relaxation while your top-tier driver handles the I-80 traffic.</p>
             </div>
         </div>
 
-        <div style="text-align: center;">
-            <a href="https://www.skiheavenly.com/" target="_blank" class="btn">VIEW TRAIL MAP</a>
+        <div class="luxury-feature">
+            <div class="luxury-text">
+                <h2>LUXURY TRANSPORT</h2>
+                <p style="font-size: 1.2rem; margin-top: 10px;">Toyota Camry XLE: The Pinnacle of Commuter Excellence.</p>
+                <p>Featuring a private top-tier driver, premium dinner service, and zero-stress navigation.</p>
+            </div>
+            <div class="price-tag">
+                <span>Total Cost</span>
+                <strong>$0.00</strong>
+                <span>Birthday Special</span>
+            </div>
         </div>
     </div>
 
-    <section class="stats" id="mountain">
-        <div class="stat-item">
-            <h2>32</h2>
-            <p>YEARS YOUNG</p>
-        </div>
-        <div class="stat-item">
-            <h2>4,800</h2>
-            <p>ACRES TO SHRED</p>
-        </div>
-        <div class="stat-item">
-            <h2>1</h2>
-            <p>EPIC BIRTHDAY</p>
-        </div>
-    </section>
-
     <footer>
-        &copy; 2025 Epic Birthday Passes | Not affiliated with Vail Resorts, just a really good friend.
+        <p>EPIC BIRTHDAY PASS™ IS A NON-TRANSFERABLE VESTED INTEREST IN HAVING A GOOD TIME.</p>
+        <p>&copy; 2026 Birthday Resorts Management Team. Camry XLE is a registered trademark of being a great car. Serenading voices subject to availability based on coffee levels.</p>
     </footer>
+
+    <script>
+        function updateResort(name, imgUrl, btn) {
+            // Update Title and Background
+            document.getElementById('resortName').innerText = name.toUpperCase();
+            document.getElementById('heroHeader').style.backgroundImage = `linear-gradient(rgba(0,51,102,0.3), rgba(0,51,102,0.6)), url('${imgUrl}')`;
+            
+            // Update Button UI
+            const btns = document.querySelectorAll('.resort-btn');
+            btns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+    </script>
 
 </body>
 </html>
