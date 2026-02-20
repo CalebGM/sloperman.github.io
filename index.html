@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EPIC BIRTHDAY PASS | 32 YEARS</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
     <style>
         :root {
             --epic-navy: #003366;
             --epic-blue: #0072b1;
             --epic-gold: #ffcc00;
             --epic-gray: #f4f4f4;
+            --urgency-red: #ff4444;
         }
 
         body {
@@ -18,156 +21,177 @@
             font-family: 'Open Sans', sans-serif;
             background-color: white;
             color: #333;
-            overflow: hidden; /* Prevent scrolling until modal is closed */
+            overflow: hidden; /* Locked until initial modal closes */
         }
 
-       /* IMPROVED SCROLLABLE MODAL */
-        #birthdayModal {
+        /* --- MODAL SYSTEM --- */
+        .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 33, 66, 0.98); /* Epic Navy */
-            display: flex;
-            justify-content: center;
-            align-items: flex-start; /* Start at top to allow scrolling */
-            z-index: 9999;
-            overflow-y: auto; /* Enable scrolling for the modal itself */
-            padding: 20px 0;
-            transition: opacity 0.5s ease;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 33, 66, 0.99);
+            z-index: 10000;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            display: block;
+            padding: 20px 10px;
         }
 
         .modal-content {
             background: white;
-            padding: 30px;
+            padding: 25px;
             border-radius: 4px;
             text-align: center;
-            max-width: 450px;
-            width: 90%;
-            margin: auto; /* Centers it if content is small */
+            max-width: 400px;
+            margin: 20px auto;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             border-top: 10px solid var(--epic-gold);
         }
 
         .modal-content img {
             width: 100%;
-            max-height: 50vh; /* Limits image to 50% of screen height */
-            object-fit: cover; /* Keeps the face from stretching */
+            height: auto;
+            max-height: 40vh;
+            object-fit: contain; 
             border-radius: 4px;
-            margin-bottom: 15px;
-            border: 2px solid var(--epic-gray);
+            margin: 15px 0;
+            display: block;
         }
 
         .modal-content h1 {
             color: var(--epic-navy);
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin: 10px 0;
             font-family: 'Montserrat';
+            text-transform: uppercase;
         }
 
         .modal-btn {
             background: var(--epic-blue);
             color: white;
             border: none;
-            padding: 18px 45px;
+            padding: 20px;
             font-family: 'Montserrat';
             font-weight: 800;
             text-transform: uppercase;
             cursor: pointer;
             border-radius: 50px;
-            margin-top: 10px;
-            letter-spacing: 1px;
-            width: 100%; /* Makes it easier to tap on mobile */
-        }
-        .modal-btn:hover {
-            background: var(--epic-navy);
+            width: 100%;
+            font-size: 1.1rem;
+            -webkit-appearance: none;
+            transition: transform 0.2s;
         }
 
-        /* --- REST OF EPIC THEME STYLES --- */
+        /* --- EPIC PASS THEME --- */
         .promo-bar {
             background-color: var(--epic-gold);
             color: #000;
             text-align: center;
             padding: 10px;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Montserrat';
             font-weight: 800;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         header {
-            height: 70vh;
+            height: 60vh;
             background: linear-gradient(rgba(0,51,102,0.3), rgba(0,51,102,0.6)), 
                         url('https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&q=80&w=1500') center/cover no-repeat;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             color: white; text-align: center; transition: 0.5s ease;
         }
 
-        .hero-title { font-family: 'Montserrat'; font-weight: 900; font-size: 4.5rem; margin: 0; }
-        .hero-sub { font-size: 1.5rem; margin-top: 20px; font-weight: 700; text-transform: uppercase; }
+        .hero-title { font-family: 'Montserrat'; font-weight: 900; font-size: 3.5rem; margin: 0; }
 
         .selector-container {
             background: var(--epic-navy);
-            padding: 30px 0;
-            display: flex; justify-content: center; gap: 20px;
+            padding: 20px 0;
+            display: flex; justify-content: center; gap: 10px;
         }
 
         .resort-btn {
-            background: transparent; border: 2px solid white; color: white;
-            padding: 12px 30px; font-family: 'Montserrat'; font-weight: 700;
-            text-transform: uppercase; cursor: pointer; transition: 0.3s;
+            background: transparent; border: 1px solid white; color: white;
+            padding: 10px 20px; font-family: 'Montserrat'; font-size: 0.8rem;
+            text-transform: uppercase; cursor: pointer;
         }
 
         .resort-btn.active { background: white; color: var(--epic-navy); }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px 80px; }
-        .section-title { text-align: center; font-family: 'Montserrat'; font-size: 2.5rem; color: var(--epic-navy); margin: 60px 0 40px; text-transform: uppercase; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+        .section-title { text-align: center; font-family: 'Montserrat'; font-size: 2rem; color: var(--epic-navy); text-transform: uppercase; }
 
-        .itinerary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-        .card { background: var(--epic-gray); border-bottom: 5px solid var(--epic-blue); padding: 30px; transition: 0.3s; }
-        .card .time-stamp { background: var(--epic-navy); color: white; display: inline-block; padding: 4px 12px; font-size: 0.8rem; font-weight: 700; margin-bottom: 15px; }
+        .itinerary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 30px; }
+        
+        .card { 
+            background: var(--epic-gray); 
+            border-bottom: 4px solid var(--epic-blue); 
+            padding: 0; 
+            overflow: hidden; 
+            transition: 0.3s;
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        
+        .card-content { padding: 25px; }
+        .card h3 { font-family: 'Montserrat'; color: var(--epic-navy); margin: 10px 0; }
+        .time-stamp { background: var(--epic-navy); color: white; display: inline-block; padding: 4px 10px; font-weight: 700; font-size: 0.75rem; }
 
         .luxury-feature {
-            background: var(--epic-navy); color: white; padding: 60px; border-radius: 4px;
-            margin-top: 60px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
+            background: var(--epic-navy); color: white; padding: 40px; border-radius: 4px;
+            margin-top: 40px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
         }
 
-        .price-tag { background: var(--epic-blue); padding: 20px; text-align: center; border-radius: 4px; min-width: 200px; }
-        .price-tag strong { font-size: 2.5rem; font-family: 'Montserrat'; display: block; }
+        .price-tag { background: var(--epic-blue); padding: 20px; text-align: center; flex: 1; min-width: 150px; }
+        .price-tag strong { font-size: 2rem; font-family: 'Montserrat'; display: block; color: var(--epic-gold); }
 
-        footer { background: #111; color: #666; padding: 40px; text-align: center; font-size: 0.75rem; }
+        .letter-section { background-color: #fff; padding: 80px 20px; border-top: 1px solid #eee; }
+        .letter-container { max-width: 800px; margin: 0 auto; text-align: center; }
+
+        footer { background: #111; color: #666; padding: 30px; text-align: center; font-size: 0.7rem; }
     </style>
 </head>
 <body id="pageBody">
 
-   <div id="birthdayModal">
+    <div id="birthdayModal" class="modal-overlay">
         <div class="modal-content">
-            <h2 style="font-family: Montserrat; color: var(--epic-blue); margin: 0; font-size: 0.9rem; letter-spacing: 1px;">32nd BIRTHDAY PASS DETECTED</h2>
-            <h1 style="text-transform: uppercase;">Happy Birthday!</h1>
+            <h2 style="font-family: Montserrat; color: var(--epic-blue); margin: 0; font-size: 0.8rem; letter-spacing: 1px;">32nd BIRTHDAY PASS DETECTED</h2>
+            <h1>Happy Birthday!</h1>
             
-            <img src="sloperMAN.jpeg" alt="The Man of the Hour">
+            <img src="sloperMAN.jpeg" alt="Birthday Friend">
             
             <p style="margin: 0; font-weight: bold; color: #555;">PASS HOLDER: sloperMAN</p>
-            <p style="margin: 5px 0 20px; font-size: 0.9rem;">Status: Valid for Heavenly/Northstar</p>
+            <p style="margin: 5px 0 20px; font-size: 0.8rem;">Access: All-Inclusive Day Trip</p>
             
-            <button class="modal-btn" onclick="closeModal()">LET'S SHRED</button>
+            <button class="modal-btn" onclick="triggerCelebration()">LET'S SHRED</button>
         </div>
     </div>
- 
+
+    <div id="bookingModal" class="modal-overlay" style="display:none; background: rgba(0,0,0,0.9);">
+        <div class="modal-content" style="border-top: 10px solid var(--urgency-red);">
+            <h2 style="font-family: Montserrat; color: var(--urgency-red);">⚠ URGENT: SYSTEM NOTICE</h2>
+            <p style="font-size: 1.1rem; line-height: 1.6;">
+                This website is only <strong>temporarily hosted</strong>. 
+                Due to high demand for the Camry XLE and serenading slots, you have <strong>24 hours to respond</strong>.
+            </p>
+            <div style="background: #fff3f3; border: 1px solid #ffcccc; padding: 15px; margin: 20px 0; border-radius: 4px;">
+                <p style="margin: 0; font-weight: bold; color: #cc0000;">TIME REMAINING:</p>
+                <p style="font-size: 1.5rem; font-family: Montserrat; font-weight: 900; margin: 5px 0;">23:59:52</p>
+            </div>
+            <button class="modal-btn" onclick="closeBooking()" style="background: #333;">I UNDERSTAND</button>
+        </div>
+    </div>
+
     <div class="promo-bar">
-        LAST CHANCE: 32nd BIRTHDAY PASS PRICING ENDS SOON — ALL EXPENSES INCLUDED
+        SPECIAL EVENT: 32nd BIRTHDAY PASS PRICING — $0.00 DUE TODAY
     </div>
 
     <header id="heroHeader">
         <h1 id="resortName" class="hero-title">HEAVENLY</h1>
-        <div class="hero-sub">Official 32nd Birthday Day-Trip Access</div>
+        <div style="font-weight: 700; text-transform: uppercase; margin-top: 10px;">Official Birthday Itinerary</div>
     </header>
 
     <div class="selector-container">
         <button class="resort-btn active" onclick="updateResort('Heavenly', 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&q=80&w=1500', this)">Heavenly</button>
-        <button class="resort-btn" onclick="updateResort('Northstar', 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&q=80&w=1500', this)">Northstar</button>
+        <button class="resort-btn" onclick="updateResort('Northstar', 'https://snowboardtraveler.com/wp-content/uploads/2020/11/DSC_0355-2.jpg', this)">Northstar</button>
     </div>
 
     <div class="container">
@@ -175,50 +199,115 @@
         
         <div class="itinerary-grid">
             <div class="card">
-                <div class="time-stamp">05:00 AM</div>
-                <h3>The Commute</h3>
-                <p>Departure from the Bay. Enjoy high-fidelity "serenading voices" and deep, unfiltered life chats in the Camry XLE.</p>
+                <div style="height: 200px; background: url('https://images.unsplash.com/photo-1514316454349-750a7fd3da3a?auto=format&fit=crop&q=80&w=600') center/cover no-repeat;"></div>
+                <div class="card-content">
+                    <div class="time-stamp">05:00 AM</div>
+                    <h3>The Commute</h3>
+                    <p>Departure from the Bay. Enjoy high-fidelity serenading and deep chats included as standard in the luxury Camry XLE.</p>
+                </div>
             </div>
+
             <div class="card">
-                <div class="time-stamp">08:00 AM</div>
-                <h3>First Chair</h3>
-                <p>Beat the crowds. A full-throttle day of snowboarding, panoramic Sierra views, and high-speed runs.</p>
+                <div style="height: 200px; background: url('https://images.unsplash.com/photo-1483921020237-2ff51e8e4b22?auto=format&fit=crop&q=80&w=800') center/cover no-repeat;"></div>
+                <div class="card-content">
+                    <div class="time-stamp">08:00 AM</div>
+                    <h3>First Chair</h3>
+                    <p>The mountain is ours. A full day of panoramic views, speedy runs, and absolute shredding.</p>
+                </div>
             </div>
+
             <div class="card">
-                <div class="time-stamp">SUNSET</div>
-                <h3>The Return</h3>
-                <p>The golden hour descent back to the Bay Area. Recovery mode engaged while your driver takes the wheel.</p>
+                <div style="height: 200px; background: url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&q=80&w=800') center/cover no-repeat;"></div>
+                <div class="card-content">
+                    <div class="time-stamp">SUNSET</div>
+                    <h3>The Return</h3>
+                    <p>The golden hour descent. Total recovery while your top-tier driver handles the I-80 corridor.</p>
+                </div>
             </div>
         </div>
 
         <div class="luxury-feature">
-            <div style="flex: 1; min-width: 300px;">
+            <div style="flex: 2; min-width: 280px;">
                 <h2 style="font-family: Montserrat; color: var(--epic-gold); margin: 0;">LUXURY TRANSPORT</h2>
-                <p>Toyota Camry XLE: Featuring top-tier driver service and total expense coverage.</p>
+                <p>Complimentary Camry XLE transit with private driver. All lifts, gas, coffee, and dinner are 100% covered.</p>
             </div>
             <div class="price-tag">
-                <span>Total Cost</span>
+                <span>Pass Cost</span>
                 <strong>$0.00</strong>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 50px;">
+            <button class="modal-btn" style="max-width: 300px; background: var(--epic-gold); color: black;" onclick="openBooking()">BOOK NOW</button>
+        </div>
+    </div>
+
+    <div class="letter-section">
+        <div class="letter-container">
+            <h2 style="font-family: 'Montserrat'; color: var(--epic-navy); text-transform: uppercase; letter-spacing: 2px;">Member Spotlight: Legend Status</h2>
+            <div style="width: 60px; height: 3px; background: var(--epic-gold); margin: 20px auto;"></div>
+            
+            <p style="font-size: 1.25rem; line-height: 1.8; color: #444; font-style: italic;">
+                "Look, I know you’ve been rocking the **Ikon Pass** lately, but it’s time to see how the other half lives. 
+                I’ve wanted to get you out on the Epic Pass for a while now, not just for the mountain, but because 
+                shredding with you is a highlight of every season."
+            </p>
+            
+            <p style="font-size: 1.1rem; line-height: 1.8; color: #555; margin-top: 20px;">
+                Your athleticism on the board is honestly impressive, and the energy you bring makes every trip 
+                a 10/10. More importantly, you’ve been an incredible friend over the years. This trip is my way 
+                of saying thanks for all the great times. Everything is on me—just bring that legendary 
+                snowboarding form and let’s make 32 your best year yet.
+            </p>
+
+            <div style="margin-top: 30px;">
+                <p style="font-family: 'Montserrat'; font-weight: 800; color: var(--epic-navy); margin-bottom: 5px;">SIGNED,</p>
+                <p style="font-family: 'Montserrat'; font-size: 1.2rem; color: var(--epic-blue); text-transform: uppercase;">Your Top-Tier Driver & Friend</p>
             </div>
         </div>
     </div>
 
     <footer>
-        &copy; 2026 Epic Birthday Pass. Not valid for resale. Must be 32 to ride.
+        &copy; 2026 EPIC BIRTHDAY PASS | Not valid for resale. Must be 32 to ride. Serenading voices subject to caffeine intake.
     </footer>
 
     <script>
+        window.onload = function() { window.scrollTo(0, 0); };
+
+        function triggerCelebration() {
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#003366', '#0072b1', '#ffcc00', '#ffffff']
+            });
+            setTimeout(closeModal, 800);
+        }
+
         function closeModal() {
-            document.getElementById('birthdayModal').style.opacity = '0';
+            const modal = document.getElementById('birthdayModal');
+            modal.style.transition = 'opacity 0.8s ease';
+            modal.style.opacity = '0';
             setTimeout(() => {
-                document.getElementById('birthdayModal').style.display = 'none';
-                document.body.style.overflow = 'auto'; // Re-enable scrolling
-            }, 500);
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }, 800);
+        }
+
+        function openBooking() {
+            document.getElementById('bookingModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeBooking() {
+            document.getElementById('bookingModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
 
         function updateResort(name, imgUrl, btn) {
             document.getElementById('resortName').innerText = name.toUpperCase();
             document.getElementById('heroHeader').style.backgroundImage = `linear-gradient(rgba(0,51,102,0.3), rgba(0,51,102,0.6)), url('${imgUrl}')`;
+            
             const btns = document.querySelectorAll('.resort-btn');
             btns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
